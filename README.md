@@ -70,7 +70,48 @@ Abrí `.env.local` y pegá las claves de tu proyecto Supabase:
 
 Guardá el archivo. **Nunca subas `.env.local` a Git** (ya está excluido en `.gitignore`).
 
-### 4. Abrir Claude Code
+### 4. Conectar el MCP de Supabase (recomendado)
+
+El MCP (Model Context Protocol) deja que Claude Code hable directo con tu proyecto Supabase: crear tablas, correr SQL, leer logs, etc. sin que tengas que copiar/pegar.
+
+**Paso 4.1 — Obtener el comando desde el Dashboard**
+
+1. Entrá a [supabase.com/dashboard](https://supabase.com/dashboard) y abrí tu proyecto.
+2. En la home del proyecto, expandí el botón **Connect** (arriba a la derecha).
+3. Tab **MCP** → en **Feature Groups** marcá **todas** las opciones (account, branching, database, debugging, development, docs, functions, storage).
+4. Copiá el comando del **Paso 1** (ya viene con tu `project_ref`).
+
+**Paso 4.2 — Agregar el MCP con scope del proyecto**
+
+Desde la carpeta del proyecto, pegá el comando que copiaste. Tiene esta forma:
+
+```bash
+claude mcp add --scope project --transport http supabase "https://mcp.supabase.com/mcp?project_ref=TU_PROJECT_REF&features=..."
+```
+
+Esto crea `.mcp.json` en la raíz del repo (scope `project` = queda compartido con quien clone el repo).
+
+**Paso 4.3 — Autenticar**
+
+Abrí Claude Code y corré:
+
+```
+/mcp
+```
+
+Seguí las instrucciones en consola para loguearte en Supabase. Una sola vez.
+
+**Paso 4.4 (opcional) — Agent Skills de Supabase**
+
+Instrucciones y scripts listos para que Claude trabaje mejor con Supabase:
+
+```bash
+npx skills add supabase/agent-skills
+```
+
+**Verificar que funciona:** en Claude Code escribí `/mcp`. Debería listar `supabase` como conectado.
+
+### 5. Abrir Claude Code
 
 Desde la carpeta del proyecto:
 
@@ -78,7 +119,7 @@ Desde la carpeta del proyecto:
 claude
 ```
 
-### 5. Describir tu idea
+### 6. Describir tu idea
 
 En el chat de Claude Code, escribí:
 
@@ -88,7 +129,7 @@ En el chat de Claude Code, escribí:
 
 Reemplazá la frase por tu idea. Claude te hará 4-5 preguntas rápidas con opciones para elegir. En menos de 2 minutos queda definida la idea y el plan.
 
-### 6. Revisar y construir
+### 7. Revisar y construir
 
 Cuando Claude te muestre el plan, revisalo. Si te gusta, escribí:
 
@@ -98,7 +139,7 @@ Cuando Claude te muestre el plan, revisalo. Si te gusta, escribí:
 
 Claude empieza a escribir código fase por fase. Al terminar cada fase te avisa qué hizo y te pregunta si seguir.
 
-### 7. Ver tu app corriendo
+### 8. Ver tu app corriendo
 
 Mientras Claude construye, podés levantar el servidor local para ir viendo los cambios:
 
@@ -108,7 +149,7 @@ npm run dev
 
 Abrí [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-### 8. Deploy a producción
+### 9. Deploy a producción
 
 Cuando el MVP esté listo:
 
@@ -151,6 +192,7 @@ mi-proyecto/
 │   ├── IDEA.md             Qué app es y para quién
 │   └── PLAN.md             Fases del desarrollo
 ├── .claude/                Skills y comandos Scalefy (no tocar)
+├── .mcp.json               Config MCP Supabase (se crea en paso 4)
 ├── .env.local              Tus claves (no subir a Git)
 └── package.json
 ```
