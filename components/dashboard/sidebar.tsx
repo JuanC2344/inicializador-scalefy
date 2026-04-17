@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ConfigMenu } from "@/components/dashboard/config-menu";
 
 const links = [
   { href: "/dashboard", label: "Inicio", icon: Home, exact: true },
@@ -58,6 +59,11 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      {/* Configuración */}
+      <div className="border-t p-2">
+        <ConfigMenu />
+      </div>
     </aside>
   );
 }

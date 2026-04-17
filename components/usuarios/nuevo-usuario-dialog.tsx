@@ -24,7 +24,11 @@ import { Plus } from "lucide-react";
 
 const initialState = { error: undefined, success: false };
 
-export function NuevoUsuarioDialog() {
+interface Props {
+  trigger?: React.ReactNode;
+}
+
+export function NuevoUsuarioDialog({ trigger }: Props) {
   const [open, setOpen] = useState(false);
   const [rol, setRol] = useState("mozo");
   const [state, action, pending] = useActionState(crearUsuario, initialState);
@@ -42,10 +46,12 @@ export function NuevoUsuarioDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="gap-1.5">
-          <Plus className="h-4 w-4" />
-          Nuevo usuario
-        </Button>
+        {trigger ?? (
+          <Button size="sm" className="gap-1.5">
+            <Plus className="h-4 w-4" />
+            Nuevo usuario
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
