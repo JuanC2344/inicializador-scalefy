@@ -38,7 +38,7 @@ export async function requireRol(rol: Rol | Rol[]) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("rol, nombre")
+    .select("rol, email")
     .eq("id", user.id)
     .single();
 
@@ -47,7 +47,7 @@ export async function requireRol(rol: Rol | Rol[]) {
     redirect("/login?error=forbidden");
   }
 
-  return { user, rol: profile.rol as Rol, nombre: profile.nombre as string | null };
+  return { user, rol: profile.rol as Rol, nombre: (profile.email as string | null) ?? user.email ?? null };
 }
 
 /**
