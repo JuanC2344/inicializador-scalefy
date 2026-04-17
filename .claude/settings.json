@@ -23,7 +23,13 @@
       "Bash(git branch)",
       "Bash(git branch:*)",
       "Bash(git init)",
-      "Bash(git remote -v)"
+      "Bash(git remote -v)",
+      "Bash(cd * && npm run typecheck*)",
+      "Bash(cd * && npm run lint*)",
+      "Bash(cd * && npm run build*)",
+      "Bash(cd * && git add*)",
+      "Bash(cd * && git commit*)",
+      "Bash(cd * && git status*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",

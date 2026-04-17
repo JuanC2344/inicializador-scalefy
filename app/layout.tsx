@@ -3,8 +3,8 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mi App",
-  description: "Creada con Inicializador Scalefy",
+  title: "GastroAdmin",
+  description: "Administración para bar/restaurante",
 };
 
 export default function RootLayout({

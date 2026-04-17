@@ -46,7 +46,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 3 — Shell del dashboard admin `[ ]`
+## Fase 3 — Shell del dashboard admin `[x]`
 
 **Meta:** layout protegido con navegación lateral para el admin.
 
