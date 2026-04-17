@@ -60,7 +60,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 4 — Mesas y carta digital `[ ]`
+## Fase 4 — Mesas y carta digital `[x]`
 
 **Meta:** admin configura mesas y carta; mozo puede ver la carta.
 
