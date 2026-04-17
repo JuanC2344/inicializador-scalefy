@@ -1,0 +1,210 @@
+## Objetivo
+
+Construir una aplicacion web de administracion para bar/restaurante, responsive (web + tablets), con roles diferenciados y 6 modulos funcionales.
+
+***
+
+## Arquitectura General
+
+```mermaid
+graph TD
+  subgraph Frontend [React + Vite + TailwindCSS]
+    A[Panel Admin] 
+    B[Panel Mozo - por dispositivo]
+    C[Vista Cocina - solo lectura comandas]
+  end
+
+  subgraph Backend [Node.js + Express]
+    D[API REST]
+    E[Auth JWT + Roles]
+    F[WebSocket - tiempo real]
+  end
+
+  subgraph DB [PostgreSQL]
+    G[(Tablas relacionales)]
+  end
+
+  Frontend --> D
+  D --> E
+  D --> F
+  D --> G
+```
+
+***
+
+## Estructura de Roles
+
+| Rol      | Acceso                                           |
+| -------- | ------------------------------------------------ |
+| `admin`  | Todo: caja, reportes, stock, menu, configuracion |
+| `mozo`   | Solo sus mesas, tomar pedidos, ver carta         |
+| `cocina` | Solo ver comandas pendientes (modo solo lectura) |
+
+* El admin inicia sesion con usuario/contraseña
+
+* Los mozos se identifican por un **ID de dispositivo** (PIN o codigo de mozo) sin password compleja
+
+* La pantalla de cocina es una URL protegida con token fijo (o PIN)
+
+***
+
+## Estructura del Proyecto
+
+```
+/
+├── backend/
+│   ├── src/
+│   │   ├── routes/       # auth, mesas, pedidos, menu, caja, stock, reportes
+│   │   ├── controllers/
+│   │   ├── middleware/   # auth JWT, roles
+│   │   ├── models/       # queries PostgreSQL (pg)
+│   │   └── websocket/    # eventos en tiempo real (pedidos, estado mesas)
+│   ├── migrations/       # SQL de estructura de BD
+│   └── .env
+├── frontend/
+│   ├── src/
+│   │   ├── pages/        # Login, Dashboard, Mesas, Menu, Pedidos, Caja, Stock, Reportes
+│   │   ├── components/
+│   │   ├── context/      # AuthContext, PedidosContext
+│   │   └── hooks/
+│   └── .env
+└── docker-compose.yml    # PostgreSQL + pgAdmin local
+```
+
+***
+
+## Modulos y Funcionalidades
+
+### 1. Gestion de Mesas y Reservas
+
+* Mapa visual de mesas (drag-and-drop o grid configurable)
+
+* Estados: `libre`, `ocupada`, `reservada`, `en cuenta`
+
+* Declarar cantidad de personas
+
+* Reservas con fecha, hora, nombre, cantidad de personas, numero de contacto (opcional)
+
+* Asignación de mozo a mesa
+
+  <br />
+
+### 2. Carta / Menu Digital
+
+* Categorias (entradas, platos, bebidas, postres, etc.)
+
+* Productos con nombre, descripcion, precio, imagen, disponibilidad
+
+* Activar/desactivar items sin eliminarlos
+
+### 3. Pedidos y Comandas
+
+* El mozo selecciona mesa, agrega productos y envia comanda
+
+* La cocina ve las comandas en tiempo real (WebSocket)
+
+* Estados de comanda: `pendiente`, `en preparacion`, `listo`, `entregado`
+
+* Posibilidad de agregar productos adicionales a una mesa abierta
+
+### 4. Caja y Facturacion
+
+* Ver cuenta de cada mesa (items + precios)
+
+* Aplicar descuentos o propinas
+
+* Medios de pago: efectivo, tarjeta, voucher de descuento, otros
+
+* Emision de ticket/recibo (PDF imprimible)
+
+* Cierre de caja diario
+
+### 5. Control de Stock / Inventario
+
+* Listado de ingredientes/insumos con stock actual
+
+* Movimientos: entrada, salida manual, consumo automatico por pedido (opcional)
+
+* Alertas de stock minimo
+
+### 6. Reportes y Estadisticas
+
+* Ventas del dia / semana / mes
+
+* Productos mas vendidos
+
+* Ingresos por medio de pago
+
+* Movimientos de caja
+
+* Exportacion a CSV/PDF/xlsx
+
+***
+
+## Base de Datos (PostgreSQL) - Esquema Principal
+
+```mermaid
+erDiagram
+  USUARIOS ||--o{ PEDIDOS : "toma"
+  MESAS ||--o{ PEDIDOS : "tiene"
+  PEDIDOS ||--o{ PEDIDO_ITEMS : "contiene"
+  PRODUCTOS ||--o{ PEDIDO_ITEMS : "referencia"
+  CATEGORIAS ||--o{ PRODUCTOS : "agrupa"
+  PRODUCTOS ||--o{ STOCK_MOVIMIENTOS : "afecta"
+  MESAS ||--o{ RESERVAS : "reservada"
+
+  USUARIOS { int id; string nombre; string rol; string pin }
+  MESAS { int id; string nombre; int capacidad; string estado }
+  PRODUCTOS { int id; string nombre; decimal precio; bool activo; int categoria_id }
+  PEDIDOS { int id; int mesa_id; int mozo_id; string estado; timestamp creado_en }
+  PEDIDO_ITEMS { int id; int pedido_id; int producto_id; int cantidad; string nota }
+  RESERVAS { int id; int mesa_id; string cliente; date fecha; time hora }
+  STOCK_MOVIMIENTOS { int id; int producto_id; int cantidad; string tipo; timestamp fecha }
+```
+
+***
+
+## Stack Tecnologico
+
+| Capa          | Tecnologia                                  |
+| ------------- | ------------------------------------------- |
+| Frontend      | React 18 + Vite + TailwindCSS + React Query |
+| Backend       | Node.js + Express + `pg` (node-postgres)    |
+| Base de datos | PostgreSQL 16                               |
+| Auth          | JWT (access token) + PIN para mozos         |
+| Tiempo real   | Socket.io (comandas y estado de mesas)      |
+| PDF/Tickets   | `pdfkit` o `react-pdf`                      |
+| Dev local     | Docker Compose (PostgreSQL + pgAdmin)       |
+
+***
+
+## Pasos de Implementacion
+
+1. **Estructura base** - monorepo, Docker Compose, `.env`, scripts de migracion SQL
+2. **Backend core** - Express, conexion PostgreSQL, migraciones, auth JWT + PIN
+3. **API por modulo** - rutas, controladores y modelos para cada modulo
+4. **WebSocket** - eventos de pedidos y mesas en tiempo real
+5. **Frontend base** - Vite + Tailwind, router, AuthContext, layout por rol
+6. **Paginas por modulo** - Mesas, Menu, Pedidos, Caja, Stock, Reportes
+7. **Vista Cocina** - pantalla simplificada solo lectura
+8. **Panel Mozo** - flujo optimizado para tablet
+9. **Generacion de tickets PDF**
+10. **Testing y ajustes responsive**
+
+***
+
+## Verificacion / DoD
+
+* [ ] Login admin funcional con JWT
+
+* [ ] Mozo puede tomar pedido y enviarlo a cocina
+
+* [ ] Cocina ve comandas en tiempo real
+
+* [ ] Admin cierra cuenta de mesa y genera recibo
+
+* [ ] Stock se actualiza correctamente
+
+* [ ] Reportes muestran datos reales del dia
+
+* [ ] UI responsive en tablet (768px+)

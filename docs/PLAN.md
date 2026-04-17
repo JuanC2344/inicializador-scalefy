@@ -31,7 +31,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 2 — Autenticación y roles `[ ]`
+## Fase 2 — Autenticación y roles `[x]`
 
 **Meta:** login funcional para los 3 roles con redirección correcta post-login.
 
