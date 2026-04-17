@@ -11,7 +11,7 @@ export async function crearPedido(
   mesaId: string,
   items: { productoId: string; cantidad: number; precioUnitario: number; nota?: string }[],
 ): Promise<PedidoState> {
-  const { user } = await requireRol("mozo");
+  const { user } = await requireRol(["mozo", "admin"]);
   if (!items.length) return { error: "El carrito está vacío" };
 
   const supabase = await createClient();

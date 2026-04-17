@@ -7,15 +7,27 @@ export default async function CajaPage() {
   await requireRol("admin");
   const supabase = await createClient();
 
-  // Mesas con pedidos sin cerrar
-  const { data: mesas } = await supabase
-    .from("mesas")
-    .select(
-      `id, nombre, estado,
-       pedidos!inner(id, total, estado)`,
-    )
-    .neq("pedidos.estado", "cerrado")
-    .order("nombre");
+  // Pedidos activos agrupados por mesa
+  // Partimos de pedidos (no de mesas) para evitar filtros PostgREST sobre tabla relacionada
+  const { data: pedidosActivos } = await supabase
+    .from("pedidos")
+    .select("id, mesa_id, total, mesas(id, nombre, estado)")
+    .neq("estado", "cerrado");
+
+  // Agrupar por mesa
+  const mesaMap = new Map<
+    string,
+    { id: string; nombre: string; estado: string; pedidos: { id: string; total: number }[] }
+  >();
+  for (const p of pedidosActivos ?? []) {
+    const mesa = p.mesas as unknown as { id: string; nombre: string; estado: string } | null;
+    if (!mesa) continue;
+    if (!mesaMap.has(mesa.id)) {
+      mesaMap.set(mesa.id, { ...mesa, pedidos: [] });
+    }
+    mesaMap.get(mesa.id)!.pedidos.push({ id: p.id, total: p.total ?? 0 });
+  }
+  const mesas = Array.from(mesaMap.values()).sort((a, b) => a.nombre.localeCompare(b.nombre));
 
   // Cierre del día actual
   const hoy = new Date().toISOString().split("T")[0];
@@ -47,8 +59,7 @@ export default async function CajaPage() {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {mesas.map((mesa) => {
-              const pedidosList = mesa.pedidos as unknown as { total: number }[];
-              const total = pedidosList.reduce((s, p) => s + (p.total ?? 0), 0);
+              const total = mesa.pedidos.reduce((s, p) => s + p.total, 0);
               return (
                 <Link
                   key={mesa.id}
@@ -58,7 +69,7 @@ export default async function CajaPage() {
                   <div>
                     <p className="font-semibold">{mesa.nombre}</p>
                     <p className="text-sm text-muted-foreground">
-                      {pedidosList.length} pedido{pedidosList.length !== 1 ? "s" : ""}
+                      {mesa.pedidos.length} pedido{mesa.pedidos.length !== 1 ? "s" : ""}
                     </p>
                     <p className="font-mono text-lg">${total.toFixed(2)}</p>
                   </div>
