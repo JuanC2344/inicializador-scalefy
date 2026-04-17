@@ -58,7 +58,7 @@ function TicketDoc({ mesa, items, subtotal, descuento, total, medioPago, fecha }
                 {item.cantidad}× {item.nombre}
                 {item.nota ? ` (${item.nota})` : ""}
               </Text>
-              <Text>${(item.cantidad * item.precioUnitario).toFixed(2)}</Text>
+              <Text>€{(item.cantidad * item.precioUnitario).toFixed(2)}</Text>
             </View>
           ))}
         </View>
@@ -67,17 +67,17 @@ function TicketDoc({ mesa, items, subtotal, descuento, total, medioPago, fecha }
 
         <View style={styles.row}>
           <Text style={styles.label}>Subtotal</Text>
-          <Text>${subtotal.toFixed(2)}</Text>
+          <Text>€{subtotal.toFixed(2)}</Text>
         </View>
         {descuento > 0 && (
           <View style={styles.row}>
             <Text style={styles.label}>Descuento</Text>
-            <Text>-${descuento.toFixed(2)}</Text>
+            <Text>-€{descuento.toFixed(2)}</Text>
           </View>
         )}
         <View style={[styles.total, { marginTop: 6 }]}>
           <Text style={styles.bold}>TOTAL</Text>
-          <Text style={styles.bold}>${total.toFixed(2)}</Text>
+          <Text style={styles.bold}>€{total.toFixed(2)}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Medio de pago</Text>

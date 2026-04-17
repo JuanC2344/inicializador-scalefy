@@ -162,7 +162,7 @@ export function Carrito({ productos, mesaId, mesaNombre }: Props) {
               >
                 <p className="font-medium text-sm line-clamp-2">{producto.nombre}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  ${producto.precio.toFixed(2)}
+                  €{producto.precio.toFixed(2)}
                 </p>
                 {enCarrito && (
                   <Badge className="mt-1 text-xs" variant="secondary">
@@ -223,7 +223,7 @@ export function Carrito({ productos, mesaId, mesaNombre }: Props) {
                     <Plus className="h-3 w-3" />
                   </button>
                   <span className="ml-auto text-xs text-muted-foreground">
-                    ${(item.producto.precio * item.cantidad).toFixed(2)}
+                    €{(item.producto.precio * item.cantidad).toFixed(2)}
                   </span>
                 </div>
                 <Input
@@ -241,7 +241,7 @@ export function Carrito({ productos, mesaId, mesaNombre }: Props) {
           <>
             <div className="flex justify-between text-sm font-semibold border-t pt-2">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>€{total.toFixed(2)}</span>
             </div>
             <Button
               className="w-full gap-1.5"

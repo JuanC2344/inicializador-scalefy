@@ -113,7 +113,7 @@ export function CuentaDetalle({ mesaId, mesaNombre, pedidos }: Props) {
                     )}
                   </td>
                   <td className="px-4 py-2 text-right font-mono">
-                    ${(item.cantidad * item.precio_unitario).toFixed(2)}
+                    €{(item.cantidad * item.precio_unitario).toFixed(2)}
                   </td>
                 </tr>
               )),
@@ -124,7 +124,7 @@ export function CuentaDetalle({ mesaId, mesaNombre, pedidos }: Props) {
 
       {/* Descuento */}
       <div className="space-y-2">
-        <Label htmlFor="descuento">Descuento ($)</Label>
+        <Label htmlFor="descuento">Descuento (€)</Label>
         <Input
           id="descuento"
           type="number"
@@ -141,17 +141,17 @@ export function CuentaDetalle({ mesaId, mesaNombre, pedidos }: Props) {
       <div className="space-y-1 text-sm">
         <div className="flex justify-between text-muted-foreground">
           <span>Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
+          <span>€{subtotal.toFixed(2)}</span>
         </div>
         {descuento > 0 && (
           <div className="flex justify-between text-muted-foreground">
             <span>Descuento</span>
-            <span>-${descuento.toFixed(2)}</span>
+            <span>-€{descuento.toFixed(2)}</span>
           </div>
         )}
         <div className="flex justify-between font-bold text-lg border-t pt-2">
           <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+          <span>€{total.toFixed(2)}</span>
         </div>
       </div>
 

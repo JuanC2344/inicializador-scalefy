@@ -75,7 +75,7 @@ export default async function CajaPage() {
                     <p className="text-sm text-muted-foreground">
                       {mesa.pedidos.length} pedido{mesa.pedidos.length !== 1 ? "s" : ""}
                     </p>
-                    <p className="font-mono text-lg">${total.toFixed(2)}</p>
+                    <p className="font-mono text-lg">€{total.toFixed(2)}</p>
                   </div>
                   <ArrowRight className="h-5 w-5 text-muted-foreground" />
                 </Link>
@@ -101,7 +101,7 @@ export default async function CajaPage() {
               <div key={label} className="rounded-lg border bg-card p-4">
                 <p className="text-xs text-muted-foreground">{label}</p>
                 <p className={`text-xl font-mono ${bold ? "font-bold" : ""}`}>
-                  ${(value ?? 0).toFixed(2)}
+                  €{(value ?? 0).toFixed(2)}
                 </p>
               </div>
             ))}

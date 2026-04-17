@@ -83,13 +83,13 @@ export default async function ReportesPage() {
         <KpiCard
           icon={<TrendingUp className="h-5 w-5 text-green-600" />}
           label="Total facturado"
-          value={`$${totalVentas.toFixed(2)}`}
+          value={`€${totalVentas.toFixed(2)}`}
           sub="suma de pedidos cerrados"
         />
         <KpiCard
           icon={<CreditCard className="h-5 w-5 text-blue-600" />}
           label="Ticket promedio"
-          value={`$${ticketPromedio.toFixed(2)}`}
+          value={`€${ticketPromedio.toFixed(2)}`}
           sub="por pedido"
         />
       </div>
@@ -106,7 +106,7 @@ export default async function ReportesPage() {
             ].map(({ label, value }) => (
               <div key={label} className="rounded-lg border bg-card p-4">
                 <p className="text-xs text-muted-foreground">{label}</p>
-                <p className="text-xl font-mono font-semibold">${(value ?? 0).toFixed(2)}</p>
+                <p className="text-xl font-mono font-semibold">€{(value ?? 0).toFixed(2)}</p>
                 {totalVentas > 0 && (
                   <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
                     <div
@@ -145,7 +145,7 @@ export default async function ReportesPage() {
                     <td className="px-4 py-2.5 text-muted-foreground">{i + 1}</td>
                     <td className="px-4 py-2.5 font-medium">{p.nombre}</td>
                     <td className="px-4 py-2.5 text-right font-mono">{p.total_vendido}</td>
-                    <td className="px-4 py-2.5 text-right font-mono">${p.ingresos.toFixed(2)}</td>
+                    <td className="px-4 py-2.5 text-right font-mono">€{p.ingresos.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
