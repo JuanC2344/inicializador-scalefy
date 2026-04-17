@@ -93,7 +93,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 6 — Caja y facturación `[ ]`
+## Fase 6 — Caja y facturación `[x]`
 
 **Meta:** admin cierra la cuenta de una mesa y genera ticket PDF.
 
