@@ -110,7 +110,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 7 — Stock y reportes `[ ]`
+## Fase 7 — Stock y reportes `[~]`
 
 **Meta:** control básico de inventario y reportes de ventas del día.
 
