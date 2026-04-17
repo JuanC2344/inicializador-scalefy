@@ -19,7 +19,10 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
-    return { error: "Credenciales inválidas" };
+    if (error.message.toLowerCase().includes("email not confirmed")) {
+      return { error: "Debés confirmar tu email antes de ingresar. Revisá tu bandeja o desactivá la confirmación en Supabase." };
+    }
+    return { error: "Credenciales inválidas. Verificá email y contraseña." };
   }
 
   // Leer rol del profile para decidir a dónde redirigir
