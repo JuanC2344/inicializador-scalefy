@@ -125,6 +125,26 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
+## Fase 9 — Cierre de turno (export Excel) `[x]`
+
+**Meta:** el admin puede descargar un archivo Excel con el resumen completo del turno actual (o un rango de fechas) para llevar control contable externo.
+
+**Archivos:**
+- `app/dashboard/caja/cierre-turno/route.ts` (Route Handler GET que arma el xlsx y lo devuelve como download)
+- `components/caja/cierre-turno-button.tsx` (botón client en página de caja que dispara la descarga; permite elegir "turno de hoy" o "últimas 8h")
+- `package.json` (agregar dependencia `xlsx` o `exceljs`)
+
+**Contenido del Excel** (varias pestañas):
+- **Resumen**: fecha/hora, pedidos cerrados, total facturado, ticket promedio.
+- **Pedidos**: lista con mesa, mozo, hora cierre, total, medio de pago.
+- **Medios de pago**: total por efectivo / tarjeta / otros.
+- **Productos vendidos**: nombre, cantidad, ingresos.
+- **Movimientos de stock**: insumo, tipo, cantidad, nota, hora.
+
+**Listo cuando:** admin hace clic en "Cierre de turno" desde `/dashboard/caja`, descarga un `.xlsx` con los datos del turno actual, y al abrirlo en Excel/Sheets ve todas las pestañas con datos reales.
+
+---
+
 ## Fase 8 — Deploy `[x]`
 
 **Meta:** app online en Vercel con Supabase conectado.

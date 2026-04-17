@@ -30,10 +30,15 @@ export async function cerrarCuenta(
   const totalBruto = pedidos.reduce((s, p) => s + (p.total ?? 0), 0);
   const totalFinal = Math.max(0, totalBruto - descuento);
 
-  // Cerrar todos los pedidos
+  // Cerrar todos los pedidos (registrar medio de pago y descuento en cada uno)
   const { error: updateError } = await supabase
     .from("pedidos")
-    .update({ estado: "cerrado", cerrado_en: new Date().toISOString() })
+    .update({
+      estado: "cerrado",
+      cerrado_en: new Date().toISOString(),
+      medio_pago: medioPago,
+      descuento: descuento,
+    })
     .eq("mesa_id", mesaId)
     .neq("estado", "cerrado");
 

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { requireRol } from "@/lib/roles";
 import Link from "next/link";
 import { CreditCard, ArrowRight } from "lucide-react";
+import { CierreTurnoButton } from "@/components/caja/cierre-turno-button";
 
 export default async function CajaPage() {
   await requireRol("admin");
@@ -39,14 +40,17 @@ export default async function CajaPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold flex items-center gap-2">
-          <CreditCard className="h-6 w-6" />
-          Caja
-        </h1>
-        <p className="text-sm text-muted-foreground mt-0.5">
-          Cerrá cuentas y descargá tickets.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl font-semibold flex items-center gap-2">
+            <CreditCard className="h-6 w-6" />
+            Caja
+          </h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Cerrá cuentas y descargá tickets.
+          </p>
+        </div>
+        <CierreTurnoButton />
       </div>
 
       {/* Mesas con cuenta abierta */}
