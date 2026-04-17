@@ -11,6 +11,7 @@ import {
   Package,
   BarChart2,
   ChefHat,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ const links = [
   { href: "/dashboard/pedidos", label: "Pedidos", icon: ClipboardList },
   { href: "/dashboard/caja", label: "Caja", icon: CreditCard },
   { href: "/dashboard/stock", label: "Stock", icon: Package },
+  { href: "/dashboard/usuarios", label: "Usuarios", icon: Users },
   { href: "/dashboard/reportes", label: "Reportes", icon: BarChart2 },
 ];
 
