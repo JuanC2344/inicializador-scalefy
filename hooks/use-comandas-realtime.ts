@@ -52,26 +52,27 @@ export function useComandasRealtime(soloActivas = true) {
 
     fetchComandas();
 
-    // Suscripción Realtime: escucha INSERT y UPDATE en pedidos
+    // Polling cada 4 segundos — garantiza actualizaciones aunque Realtime no esté habilitado
+    const poll = setInterval(fetchComandas, 4000);
+
+    // Suscripción Realtime: si las tablas tienen Realtime activado, actualiza al instante
+    // Para activarlo: ALTER PUBLICATION supabase_realtime ADD TABLE public.pedidos, public.pedido_items;
     const channel = supabase
       .channel("comandas-realtime")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "pedidos" },
-        () => {
-          fetchComandas();
-        },
+        () => fetchComandas(),
       )
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "pedido_items" },
-        () => {
-          fetchComandas();
-        },
+        () => fetchComandas(),
       )
       .subscribe();
 
     return () => {
+      clearInterval(poll);
       supabase.removeChannel(channel);
     };
   }, [soloActivas]);
