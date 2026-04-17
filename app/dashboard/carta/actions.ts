@@ -54,7 +54,8 @@ export async function crearProducto(
   const descripcion = String(formData.get("descripcion") ?? "").trim();
   const precio = parseFloat(String(formData.get("precio") ?? "0"));
   const imagen_url = String(formData.get("imagen_url") ?? "").trim() || null;
-  const categoria_id = String(formData.get("categoria_id") ?? "").trim() || null;
+  const rawCat = String(formData.get("categoria_id") ?? "").trim();
+  const categoria_id = rawCat && rawCat !== "none" ? rawCat : null;
 
   if (!nombre) return { error: "Nombre obligatorio" };
   if (isNaN(precio) || precio < 0) return { error: "Precio inválido" };
@@ -85,7 +86,8 @@ export async function actualizarProducto(
   const descripcion = String(formData.get("descripcion") ?? "").trim();
   const precio = parseFloat(String(formData.get("precio") ?? "0"));
   const imagen_url = String(formData.get("imagen_url") ?? "").trim() || null;
-  const categoria_id = String(formData.get("categoria_id") ?? "").trim() || null;
+  const rawCat2 = String(formData.get("categoria_id") ?? "").trim();
+  const categoria_id = rawCat2 && rawCat2 !== "none" ? rawCat2 : null;
 
   if (!nombre) return { error: "Nombre obligatorio" };
   if (isNaN(precio) || precio < 0) return { error: "Precio inválido" };

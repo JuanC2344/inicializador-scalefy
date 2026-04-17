@@ -95,12 +95,12 @@ export function ProductoForm({ categorias, producto, onSuccess }: Props) {
 
         <div className="space-y-2">
           <Label>Categoría</Label>
-          <Select name="categoria_id" defaultValue={producto?.categoria_id ?? ""}>
+          <Select name="categoria_id" defaultValue={producto?.categoria_id ?? "none"}>
             <SelectTrigger disabled={pending}>
               <SelectValue placeholder="Sin categoría" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Sin categoría</SelectItem>
+              <SelectItem value="none">Sin categoría</SelectItem>
               {categorias.map((cat) => (
                 <SelectItem key={cat.id} value={cat.id}>
                   {cat.nombre}
