@@ -76,7 +76,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 5 — Pedidos y comandas en tiempo real `[ ]`
+## Fase 5 — Pedidos y comandas en tiempo real `[x]`
 
 **Meta:** mozo toma pedido → cocina lo ve al instante vía Supabase Realtime.
 
