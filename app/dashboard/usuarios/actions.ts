@@ -43,6 +43,10 @@ export async function crearUsuario(
   const password = `mozo${numero}`;
   const rol: Rol = "mozo";
 
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return { error: "Variable SUPABASE_SERVICE_ROLE_KEY no configurada en el servidor" };
+  }
+
   const admin = createAdminClient();
 
   // Verificar que el número no esté en uso
