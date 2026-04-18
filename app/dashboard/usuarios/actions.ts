@@ -39,7 +39,7 @@ export async function crearUsuario(
   if (!nombre) return { error: "El nombre es obligatorio" };
   if (isNaN(numero) || numero < 0 || numero > 999) return { error: "El número debe estar entre 0 y 999" };
 
-  const email = `mozo${numero}@gastro.local`;
+  const email = `mozo${numero}@gastro.app`;
   const password = `mozo${numero}`;
   const rol: Rol = "mozo";
 

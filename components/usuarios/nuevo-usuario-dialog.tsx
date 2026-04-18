@@ -66,7 +66,7 @@ export function NuevoUsuarioDialog({ trigger }: Props) {
               required
             />
             <p className="text-xs text-muted-foreground">
-              El mozo usará este número para ingresar al sistema.
+              Email: <span className="font-mono">mozo{"{numero}"}@gastro.app</span> · Contraseña: <span className="font-mono">mozo{"{numero}"}</span>
             </p>
           </div>
           <Button type="submit" className="w-full" disabled={pending}>
