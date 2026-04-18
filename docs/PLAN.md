@@ -184,7 +184,7 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
-## Fase 13 — UX visual de mesas y asignación de mozo `[~]`
+## Fase 13 — UX visual de mesas y asignación de mozo `[x]`
 
 **Meta:** las mesas muestran su estado visualmente (borde de color normal, relleno en hover) y al tocar una mesa libre aparece un popup para asignar mozo antes de cargar items.
 
@@ -196,6 +196,31 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 **Colores por estado:** libre=verde, ocupada=rojo, en_cuenta=amarillo/naranja.
 
 **Listo cuando:** las mesas tienen borde de color visible, al hacer hover el centro cambia de color, y al tocar una mesa libre aparece popup para seleccionar el mozo antes de ir a cargar pedido.
+
+---
+
+## Fase 15 — Vista de mozo integrada en el dashboard `[x]`
+
+**Meta:** el admin puede tomar pedidos como mozo directamente desde el dashboard, sin cambiar de interfaz. Agrega "Mozo" al sidebar y duplica las páginas `/mozo` bajo `/dashboard/mozo/` con navegación interna correcta.
+
+**Archivos:**
+- `app/dashboard/mozo/page.tsx` — grilla de mesas en modo mozo (reutiliza la lógica de `/mozo/page.tsx`)
+- `app/dashboard/mozo/mesa/[id]/page.tsx` — toma de pedido con carrito (reutiliza `Carrito`; back-link apunta a `/dashboard/mozo`)
+- `components/dashboard/sidebar.tsx` — agregar link "Mozo" con ícono `UtensilsCrossed` (toca código existente)
+
+**Listo cuando:** el sidebar muestra "Mozo", al clickearlo se ve la grilla de mesas, al tocar una mesa ocupada se puede agregar items y enviar comanda — todo sin salir del dashboard.
+
+---
+
+## Fase 14 — Vista de cocina en el dashboard `[x]`
+
+**Meta:** el admin puede acceder a la vista de cocina directamente desde el sidebar del dashboard, ver los pedidos activos y cambiar sus estados, sin necesidad de abrir `/cocina` por separado.
+
+**Archivos:**
+- `app/dashboard/cocina/page.tsx` — página protegida por rol admin que renderiza la vista de comandas
+- `components/dashboard/sidebar.tsx` — agregar link "Cocina" con ícono ChefHat (toca código existente)
+
+**Listo cuando:** en el sidebar del admin aparece "Cocina", al clickearlo se ven las comandas activas en tiempo real con los mismos controles de estado que tiene la vista `/cocina`.
 
 ---
 
