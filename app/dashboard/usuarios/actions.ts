@@ -34,15 +34,25 @@ export async function crearUsuario(
   await requireRol("admin");
 
   const nombre = String(formData.get("nombre") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
-  const rol = String(formData.get("rol") ?? "mozo") as Rol;
+  const numero = parseInt(String(formData.get("numero") ?? ""), 10);
 
-  if (!nombre || !email || !password) return { error: "Todos los campos son obligatorios" };
-  if (password.length < 6) return { error: "La contraseña debe tener al menos 6 caracteres" };
-  if (!["admin", "mozo", "cocina"].includes(rol)) return { error: "Rol inválido" };
+  if (!nombre) return { error: "El nombre es obligatorio" };
+  if (isNaN(numero) || numero < 0 || numero > 999) return { error: "El número debe estar entre 0 y 999" };
+
+  const email = `mozo${numero}@gastro.local`;
+  const password = `mozo${numero}`;
+  const rol: Rol = "mozo";
 
   const admin = createAdminClient();
+
+  // Verificar que el número no esté en uso
+  const { data: existing } = await admin
+    .from("profiles")
+    .select("id")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (existing) return { error: `El número ${numero} ya está en uso` };
 
   const { data, error } = await admin.auth.admin.createUser({
     email,
@@ -53,7 +63,6 @@ export async function crearUsuario(
 
   if (error || !data.user) return { error: error?.message ?? "No se pudo crear el usuario" };
 
-  // El trigger crea el profile con rol='cocina'; actualizar al rol correcto
   const { error: updateError } = await admin
     .from("profiles")
     .update({ rol })

@@ -12,13 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 
@@ -30,12 +23,11 @@ interface Props {
 
 export function NuevoUsuarioDialog({ trigger }: Props) {
   const [open, setOpen] = useState(false);
-  const [rol, setRol] = useState("mozo");
   const [state, action, pending] = useActionState(crearUsuario, initialState);
 
   useEffect(() => {
     if (state.success) {
-      toast.success("Usuario creado correctamente");
+      toast.success("Mozo creado correctamente");
       setOpen(false);
     }
     if (state.error) {
@@ -49,13 +41,13 @@ export function NuevoUsuarioDialog({ trigger }: Props) {
         {trigger ?? (
           <Button size="sm" className="gap-1.5">
             <Plus className="h-4 w-4" />
-            Nuevo usuario
+            Nuevo mozo
           </Button>
         )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Crear usuario</DialogTitle>
+          <DialogTitle>Agregar mozo</DialogTitle>
         </DialogHeader>
         <form action={action} className="space-y-4">
           <div className="space-y-2">
@@ -63,28 +55,22 @@ export function NuevoUsuarioDialog({ trigger }: Props) {
             <Input id="nombre" name="nombre" placeholder="Ej: Juan García" required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="juan@local.com" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Contraseña</Label>
-            <Input id="password" name="password" type="password" placeholder="Mínimo 6 caracteres" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="rol">Rol</Label>
-            <Select name="rol" value={rol} onValueChange={setRol}>
-              <SelectTrigger id="rol">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="mozo">Mozo</SelectItem>
-                <SelectItem value="cocina">Cocina</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label htmlFor="numero">Número (0-999)</Label>
+            <Input
+              id="numero"
+              name="numero"
+              type="number"
+              min={0}
+              max={999}
+              placeholder="Ej: 1"
+              required
+            />
+            <p className="text-xs text-muted-foreground">
+              El mozo usará este número para ingresar al sistema.
+            </p>
           </div>
           <Button type="submit" className="w-full" disabled={pending}>
-            {pending ? "Creando..." : "Crear usuario"}
+            {pending ? "Creando..." : "Crear mozo"}
           </Button>
         </form>
       </DialogContent>
