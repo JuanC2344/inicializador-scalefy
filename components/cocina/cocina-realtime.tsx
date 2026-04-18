@@ -5,7 +5,11 @@ import { ChefHat, ChevronDown, ChevronUp, CheckCircle2 } from "lucide-react";
 import { useComandasRealtime } from "@/hooks/use-comandas-realtime";
 import { ComandaCard } from "./comanda-card";
 
-export function CocinaRealtime() {
+interface CocinaRealtimeProps {
+  embedded?: boolean;
+}
+
+export function CocinaRealtime({ embedded = false }: CocinaRealtimeProps) {
   const { comandas, loading } = useComandasRealtime(true);
   const [listasOpen, setListasOpen] = useState(false);
 
@@ -15,17 +19,24 @@ export function CocinaRealtime() {
   const listas = comandas.filter((c) => c.estado === "listo");
 
   return (
-    <div className="min-h-screen bg-background p-4 space-y-8">
-      {/* Header */}
-      <header className="flex items-center gap-2">
-        <ChefHat className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-bold">Cocina</h1>
-        {!loading && (
-          <span className="ml-auto text-sm text-muted-foreground">
-            {enCurso.length} en curso · {listas.length} lista{listas.length !== 1 ? "s" : ""}
-          </span>
-        )}
-      </header>
+    <div className={embedded ? "space-y-6" : "min-h-screen bg-background p-4 space-y-8"}>
+      {/* Header — solo en vista standalone */}
+      {!embedded && (
+        <header className="flex items-center gap-2">
+          <ChefHat className="h-6 w-6 text-primary" />
+          <h1 className="text-2xl font-bold">Cocina</h1>
+          {!loading && (
+            <span className="ml-auto text-sm text-muted-foreground">
+              {enCurso.length} en curso · {listas.length} lista{listas.length !== 1 ? "s" : ""}
+            </span>
+          )}
+        </header>
+      )}
+      {embedded && !loading && (
+        <p className="text-sm text-muted-foreground">
+          {enCurso.length} en curso · {listas.length} lista{listas.length !== 1 ? "s" : ""}
+        </p>
+      )}
 
       {loading ? (
         <div className="text-center py-20 text-muted-foreground">Cargando comandas…</div>

@@ -12,6 +12,8 @@ import {
   BarChart2,
   ChefHat,
   Users,
+  UtensilsCrossed,
+  Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ConfigMenu } from "@/components/dashboard/config-menu";
@@ -19,6 +21,8 @@ import { ConfigMenu } from "@/components/dashboard/config-menu";
 const links = [
   { href: "/dashboard", label: "Inicio", icon: Home, exact: true },
   { href: "/dashboard/mesas", label: "Mesas", icon: LayoutGrid },
+  { href: "/dashboard/mozo", label: "Mozo", icon: UtensilsCrossed },
+  { href: "/dashboard/cocina", label: "Cocina", icon: Flame },
   { href: "/dashboard/carta", label: "Carta", icon: BookOpen },
   { href: "/dashboard/pedidos", label: "Pedidos", icon: ClipboardList },
   { href: "/dashboard/caja", label: "Caja", icon: CreditCard },

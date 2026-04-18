@@ -80,7 +80,7 @@ export function MesaCard({ mesa, mozos }: { mesa: Mesa; mozos: Mozo[] }) {
         toast.error(res.error);
       } else {
         setDialogOpen(false);
-        router.push(`/mozo/mesa/${mesa.id}`);
+        router.push(`/dashboard/mozo/mesa/${mesa.id}`);
       }
     });
   }
