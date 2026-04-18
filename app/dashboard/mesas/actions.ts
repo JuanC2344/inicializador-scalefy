@@ -59,3 +59,19 @@ export async function eliminarMesa(mesaId: string): Promise<MesaState> {
   revalidatePath("/dashboard");
   return { success: true };
 }
+
+export async function asignarMozo(mesaId: string, mozoId: string): Promise<MesaState> {
+  await requireRol(["admin", "mozo"]);
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("mesas")
+    .update({ estado: "ocupada", mozo_id: mozoId })
+    .eq("id", mesaId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/dashboard/mesas");
+  revalidatePath("/dashboard");
+  return { success: true };
+}

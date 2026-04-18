@@ -172,6 +172,33 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
+## Fase 12 — Creación de usuario simplificada `[x]`
+
+**Meta:** al crear un mozo, solo pedir Nombre y Número (0-999). El sistema genera automáticamente el email (`mozo{numero}@gastro.local`) y contraseña (`mozo{numero}`). El rol siempre es "mozo".
+
+**Archivos:**
+- `components/usuarios/nuevo-usuario-dialog.tsx` — simplificar formulario a solo Nombre + Número
+- `app/dashboard/usuarios/actions.ts` — adaptar `crearUsuario` para generar email/password a partir del número
+
+**Listo cuando:** el formulario solo muestra Nombre y Número, y al enviar se crea el usuario mozo sin necesidad de ingresar email ni contraseña.
+
+---
+
+## Fase 13 — UX visual de mesas y asignación de mozo `[~]`
+
+**Meta:** las mesas muestran su estado visualmente (borde de color normal, relleno en hover) y al tocar una mesa libre aparece un popup para asignar mozo antes de cargar items.
+
+**Archivos:**
+- `components/mesas/mesa-card.tsx` — borde de color según estado, relleno del color en hover
+- `app/mozo/page.tsx` o `app/dashboard/mesas/page.tsx` — popup de selección de mozo al click en mesa libre
+- `app/dashboard/mesas/actions.ts` — acción para asignar mozo a mesa
+
+**Colores por estado:** libre=verde, ocupada=rojo, en_cuenta=amarillo/naranja.
+
+**Listo cuando:** las mesas tienen borde de color visible, al hacer hover el centro cambia de color, y al tocar una mesa libre aparece popup para seleccionar el mozo antes de ir a cargar pedido.
+
+---
+
 ## Fase 8 — Deploy `[x]`
 
 **Meta:** app online en Vercel con Supabase conectado.

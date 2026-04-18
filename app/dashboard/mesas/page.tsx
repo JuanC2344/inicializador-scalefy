@@ -8,10 +8,10 @@ export default async function MesasPage() {
   await requireRol("admin");
   const supabase = await createClient();
 
-  const { data: mesas, error } = await supabase
-    .from("mesas")
-    .select("id, nombre, capacidad, estado")
-    .order("nombre");
+  const [{ data: mesas, error }, { data: mozos }] = await Promise.all([
+    supabase.from("mesas").select("id, nombre, capacidad, estado").order("nombre"),
+    supabase.from("profiles").select("id, email").eq("rol", "mozo").order("email"),
+  ]);
 
   if (error) {
     return <p className="text-destructive">Error al cargar mesas: {error.message}</p>;
@@ -46,6 +46,7 @@ export default async function MesasPage() {
             <MesaCard
               key={mesa.id}
               mesa={mesa as { id: string; nombre: string; capacidad: number; estado: "libre" | "ocupada" | "en_cuenta" }}
+              mozos={(mozos ?? []) as { id: string; email: string }[]}
             />
           ))}
         </div>
