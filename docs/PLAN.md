@@ -224,6 +224,21 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
+## Fase 16 — Popup de comanda en vista mozo `[~]`
+
+**Meta:** en la página de una mesa (`/dashboard/mozo/mesa/[id]` y `/mozo/mesa/[id]`) aparece un botón "Ver comanda" que abre un popup con el resumen completo: nombre del mozo asignado, listado de items con cantidad y subtotal por línea, y total general.
+
+**Archivos:**
+- `components/mozo/comanda-detalle-dialog.tsx` — Dialog client que recibe los datos y los muestra formateados
+- `app/dashboard/mozo/mesa/[id]/page.tsx` — agregar query de pedidos activos de la mesa + pasar datos al dialog (toca código existente)
+- `app/mozo/mesa/[id]/page.tsx` — ídem para la ruta mozo independiente (toca código existente)
+
+**Query:** `pedidos` filtrado por `mesa_id` y estados activos (pendiente/en_preparacion/listo), join con `profiles` (nombre del mozo vía `mozo_id`) y `pedido_items` → `productos` (nombre, precio_unitario, cantidad).
+
+**Listo cuando:** en la página de una mesa con pedido activo aparece el botón "Ver comanda", al clickearlo se ve el popup con mozo, items detallados y totales.
+
+---
+
 ## Fase 8 — Deploy `[x]`
 
 **Meta:** app online en Vercel con Supabase conectado.
