@@ -16,8 +16,8 @@ export interface Comanda {
   estado: "pendiente" | "en_preparacion" | "listo" | "entregado" | "cerrado";
   creado_en: string;
   total: number;
+  mozo_id: string | null;
   mesas: { nombre: string } | null;
-  profiles: { nombre: string | null } | null;
   pedido_items: PedidoItem[];
 }
 
@@ -36,9 +36,8 @@ export function useComandasRealtime(soloActivas = true) {
       const query = supabase
         .from("pedidos")
         .select(
-          `id, estado, creado_en, total,
+          `id, estado, creado_en, total, mozo_id,
            mesas(nombre),
-           profiles(nombre),
            pedido_items(id, cantidad, precio_unitario, nota, productos(nombre))`,
         )
         .order("creado_en", { ascending: true });
