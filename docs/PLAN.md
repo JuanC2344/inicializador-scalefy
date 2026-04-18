@@ -145,6 +145,33 @@ Fases para llegar del bootstrap al MVP deployado. Cada fase es una unidad atómi
 
 ---
 
+## Fase 10 — Gestión de usuarios desde la app `[x]`
+
+**Meta:** el admin puede crear, ver y eliminar usuarios (mozo/cocina/admin) directamente desde el dashboard, sin tener que ir a Supabase.
+
+**Archivos:**
+- `app/dashboard/usuarios/page.tsx` — listado de usuarios con su rol
+- `app/dashboard/usuarios/actions.ts` — crear y eliminar usuario vía service_role
+- `components/usuarios/nuevo-usuario-dialog.tsx` — formulario: nombre, email, contraseña, rol
+- `app/dashboard/layout.tsx` — agregar "Usuarios" al sidebar
+
+**Listo cuando:** admin puede crear un usuario mozo desde `/dashboard/usuarios`, ese usuario puede loguearse como mozo y ver `/mozo`.
+
+---
+
+## Fase 11 — Menú Configuración en sidebar `[x]`
+
+**Meta:** agregar un botón "Configuración" en la parte inferior del sidebar que despliega un submenú con: toggle dark/light mode y acceso rápido a "Agregar Mozo".
+
+**Archivos:**
+- `components/dashboard/sidebar.tsx` — agregar sección inferior con botón Configuración colapsable
+- `components/dashboard/config-menu.tsx` — submenú con toggle de tema y botón Agregar Mozo
+- `components/usuarios/nuevo-usuario-dialog.tsx` — reusar dialog existente
+
+**Listo cuando:** en el sidebar aparece "Configuración" abajo, al clickear muestra opciones de tema (light/dark) y "Agregar Mozo" que abre el dialog de creación de usuario.
+
+---
+
 ## Fase 8 — Deploy `[x]`
 
 **Meta:** app online en Vercel con Supabase conectado.
